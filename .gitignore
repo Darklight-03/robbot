@@ -8,7 +8,7 @@ ignores
 
 # ignore serverconfigs
 serverconf
-
+config.json
 
 # ignore vscode files
 .vscode
