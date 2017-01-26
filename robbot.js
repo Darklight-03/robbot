@@ -6,6 +6,7 @@ var Events = require('./event_handler.js'); // Load event handler
 var ignoreLists = require('./ignore_handler.js'); // Load ignore handler
 var Commands = require('./command_handler.js'); // Load command handler
 var serverConfig = require('./serverconfig_handler.js'); // Load serverConfig handler
+var playableGames = require('./res/games.json'); //loads all the games that the bot can play
 
 bot.once('ready', () => { // Ready message once bot is loaded
 	Events.ready(bot);
@@ -50,17 +51,29 @@ var timeout = {
 };
 
 setInterval(function () {
-	if(bot.user.presence.game.name == "beep boop") { // If the current status is...
-		bot.user.setGame("bleep bloop"); //  ...set it to [...].
+
+	switch((Math.floor(Math.random() * (Object.keys(playableGames).length - 0) + 1))){
+		case 1: bot.user.setGame(playableGames.one);
+			break;
+		case 2:bot.user.setGame(playableGames.two);
+			break;
+		case 3:bot.user.setGame(playableGames.three);
+			break;
+		case 4:bot.user.setGame(playableGames.four);
+			break;
+		case 5:bot.user.setGame(playableGames.five);
+			break;
+		case 6:bot.user.setGame(playableGames.six);
+			break;
+		case 7:bot.user.setGame(playableGames.seven);
+			break;
+		case 8:bot.user.setGame(playableGames.eight);
+			break;
+		default:
+			break;
 	}
-	else if(bot.user.presence.game.name == "bleep bloop") { // ...but if the current status is...
-		bot.user.setGame("beep boop"); // ...then set it to [...].
-	}
-	else { 
-		// however, if the bot's playing status was changed (is neither of two default) or cleared...
-		return;	// ...leave it unchanged.
-	}
-}, 300000); // Repeat every 5 minutes
+
+}, 15000); // Repeats every 15 seconds, what we believe to be the rate cap of changing games being played.
 
 bot.on('message', msg => { // Listen to all messages sent
 	if(msg.author.bot) { return; }; // Ignore any bot messages
