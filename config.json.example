@@ -1,0 +1,18 @@
+{
+	"token": "APP_TOKEN",
+	"ownerID": "OWNER_ID",
+	"commandPath": "commands/",
+	"soundPath": "sounds/",
+	"ignorePath": "ignores/",
+	"logPath": "logs/",
+	"serverConfPath": "serverconf/",
+	"shutdownLog": "shutdown.log",
+	"requestLog": "request.log",
+	"serverLog": "server.log",
+	"profileLog": "profile.log",
+	"ignoreLog": "ignore.log",
+	"commandCooldown": 3,
+	"commandPrefix": "robbot,",
+	"useDiscordBots": false,
+	"discordBotsAPI": "API_TOKEN"
+}

@@ -52,27 +52,8 @@ var timeout = {
 
 setInterval(function () {
 
-	switch((Math.floor(Math.random() * (Object.keys(playableGames).length - 0) + 1))){
-		case 1: bot.user.setGame(playableGames.one);
-			break;
-		case 2:bot.user.setGame(playableGames.two);
-			break;
-		case 3:bot.user.setGame(playableGames.three);
-			break;
-		case 4:bot.user.setGame(playableGames.four);
-			break;
-		case 5:bot.user.setGame(playableGames.five);
-			break;
-		case 6:bot.user.setGame(playableGames.six);
-			break;
-		case 7:bot.user.setGame(playableGames.seven);
-			break;
-		case 8:bot.user.setGame(playableGames.eight);
-			break;
-		default:
-			break;
-	}
-
+	let n = Math.floor(Math.random() * (playableGames.games.length - 0) + 1)
+		bot.user.setGame(playableGames.games[n]);
 }, 15000); // Repeats every 15 seconds, what we believe to be the rate cap of changing games being played.
 
 bot.on('message', msg => { // Listen to all messages sent
