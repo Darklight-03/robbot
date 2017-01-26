@@ -1,11 +1,12 @@
 {
-	"one": "You're adopted.",
-	"two": "KYS",
-	"three": "Can't stump the trump",
-	"four": "Shrek is love, Shrek is life",
-	"five": "Portal 2",
-	"six": "FFXIV is a weeb game",
-	"seven": "MLG",
-	"eight": "with your emotions"
-
+	"games":[
+		"You're adopted.",
+		"KYS",
+		"Can't stump the trump",
+		"Shrek is love, Shrek is life",
+		"Portal 2",
+		"FFXIV is a weeb game",
+		"MLG",
+		"with your emotions"
+	]
 }
