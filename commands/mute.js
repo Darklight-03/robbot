@@ -23,8 +23,9 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 			else{
 				mutee.addRole(muted);
 				msg.guild.createChannel('temp', 'voice').then(channel => {
-					mutee.setVoiceChannel(channel);
-					channel.delete();
+					mutee.setVoiceChannel(channel).then(member => {
+						channel.delete();
+					});	
 				});
 				msg.reply("muted "+mutee.toString());
 			}
