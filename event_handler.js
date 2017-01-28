@@ -8,17 +8,17 @@ module.exports = { // Export event functions
 		bot.user.setGame("beep boop"); // ...and set default game status.
 	},
 	"error": function error(bot) { // If a "serious connection error" occurs...
-		console.log(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${bot.user.username} encountered a "serious connection error"!`); // ...console log a notifcation.	
+		console.log(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${bot.user.username} encountered a "serious connection error"!`); // ...console log a notifcation.
 	},
 	"join": function join(bot, guild) { // Once the bot joins a new server ...
 		console.log(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${bot.user.username} has joined a new server! ("${guild.name}")`); // ...console log a notification...
-		fs.appendFileSync(`${config.logPath}${config.serverLog}`, `\n[${moment().format('DD/MM/YYYY HH:mm:ss')}][SERVERS] ${bot.user.username} has joined the '${guild.name}' server!`); 
+		fs.appendFileSync(`${config.logPath}${config.serverLog}`, `\n[${moment().format('DD/MM/YYYY HH:mm:ss')}][SERVERS] ${bot.user.username} has joined the '${guild.name}' server!`);
 		// ...and log which server was joined and when.
 	},
 	"leave": function leave(bot, guild) { // Once the bot leaves a server...
 		console.log(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${bot.user.username} has left a server! ("${guild.name}")`); // ...console log a notification...
-		fs.appendFileSync(`${config.logPath}${config.serverLog}`, `\n[${moment().format('DD/MM/YYYY HH:mm:ss')}][SERVERS] ${bot.user.username} has left the '${guild.name}' server!`); 
+		fs.appendFileSync(`${config.logPath}${config.serverLog}`, `\n[${moment().format('DD/MM/YYYY HH:mm:ss')}][SERVERS] ${bot.user.username} has left the '${guild.name}' server!`);
 		// ...and log which server was left and when.
 	}
-	
+
 };
