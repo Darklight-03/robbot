@@ -5,6 +5,7 @@ npm-debug.log*
 
 # ignore files
 ignores
+.eslintrc.json
 
 # ignore serverconfigs
 serverconf
