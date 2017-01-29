@@ -50,10 +50,10 @@ var timeout = {
 	}
 };
 
-setInterval(function() {
-	//sets the game
-	let n = Math.floor(Math.random() * (playableGames.games.length - 0) + 1);
-	bot.user.setGame(playableGames.games[n]);
+setInterval(function () {
+
+	let n = Math.floor(Math.random() * (playableGames.games.length - 0))
+		bot.user.setGame(playableGames.games[n]);
 }, 15000); // Repeats every 15 seconds, what we believe to be the rate cap of changing games being played.
 
 setInterval(() => {
