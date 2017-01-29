@@ -5,7 +5,7 @@ const moment = require('moment'); // Part of log writing
 module.exports = { // Export event functions
 	"ready": function ready(bot) { // Once the bot is ready (fully booted) ...
 		console.log(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${bot.user.username} ready!`); // ...console log a ready message...
-		bot.user.setGame(`try '${config.commandPrefix} help' !`); // ...and set default game status.
+		bot.user.setGame("beep boop"); // ...and set default game status.
 	},
 	"error": function error(bot) { // If a "serious connection error" occurs...
 		console.log(`[${moment().format('DD/MM/YYYY HH:mm:ss')}] ${bot.user.username} encountered a "serious connection error"!`); // ...console log a notifcation.	
@@ -20,4 +20,5 @@ module.exports = { // Export event functions
 		fs.appendFileSync(`${config.logPath}${config.serverLog}`, `\n[${moment().format('DD/MM/YYYY HH:mm:ss')}][SERVERS] ${bot.user.username} has left the '${guild.name}' server!`); 
 		// ...and log which server was left and when.
 	}
+	
 };
