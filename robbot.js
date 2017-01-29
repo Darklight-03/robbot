@@ -59,11 +59,13 @@ setInterval(function() {
 setInterval(() => {
 	try {
 		//checks muted list to see if anyone needs to be unmuted
-		console.log('checking muted files');
+		//console.log('checking muted files');
+		//checks for files
 		fs.readdir('serverconf/muted', (err, files) => {
 			if (err) {
 				console.log(err.toString());
 			}
+			//reads each file
 			files.forEach(file => {
 				if (file != 'dont-delete-folder') {
 					fs.readFile('serverconf/muted/' + file, 'utf8', (err, data) => {
@@ -71,15 +73,16 @@ setInterval(() => {
 							console.log(err.toString());
 							throw "something went wrong with reading file.";
 						} else {
+							//checks time they need to be unmuted
 							let guildid = data.split(' ')[0];
 							let timeUnmute = data.split(' ')[1];
-							console.log(guildid);
 							let guild = bot.guilds.get(guildid);
-
 							let mutee = guild.members.get(file);
 							let muted = guild.roles.find('name', 'Muted').id;
+
 							if (mutee.roles.has(muted)) {
 								if (Date.now() > timeUnmute) {
+									//unmutes and removes file
 									mutee.removeRole(muted);
 									guild.defaultChannel.sendMessage(mutee + ' you have been unmuted!');
 									fs.unlink('serverconf/muted/' + file);
