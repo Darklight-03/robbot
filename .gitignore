@@ -6,6 +6,10 @@ npm-debug.log*
 # ignore files
 ignores
 
+# Project files
+.eslintrc.json
+.tern-project
+
 # ignore serverconfigs
 serverconf
 config.json
