@@ -7,6 +7,7 @@ var ignoreLists = require('./ignore_handler.js'); // Load ignore handler
 var Commands = require('./command_handler.js'); // Load command handler
 var serverConfig = require('./serverconfig_handler.js'); // Load serverConfig handler
 var playableGames = require('./res/games.json'); //loads all the games that the bot can play
+var DMResponses = require('./res/DMResponses.json');
 
 bot.once('ready', () => { // Ready message once bot is loaded
 	Events.ready(bot);
@@ -103,16 +104,16 @@ bot.on('message', msg => { // Listen to all messages sent
 	if (msg.author.bot) {
 		return;
 	} // Ignore any bot messages
-	if (!msg.content.startsWith(config.commandPrefix)) {
-		return;
-	} // Don't listen to messages not starting with bot prefix
 	if (msg.channel.type == "dm") {
 		// If the message is from a private channel...
-		msg.channel.sendMessage("Commands via DM not supported, sorry.");
+		msg.channel.sendMessage(DMResponses.responses[Math.floor(Math.random() * (DMResponses.responses.length))]);
 		// ...notify the user...
 		return;
 		// ...and abort command execution.
 	}
+	if (!msg.content.startsWith(config.commandPrefix)) {
+		return;
+	} // Don't listen to messages not starting with bot prefix
 	if (msg.content == config.commandPrefix) {
 		return;
 	} // Ignore empty commands (messages containing just the prefix)
