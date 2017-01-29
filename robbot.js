@@ -57,40 +57,45 @@ setInterval(function() {
 }, 15000); // Repeats every 15 seconds, what we believe to be the rate cap of changing games being played.
 
 setInterval(() => {
-	//checks muted list to see if anyone needs to be unmuted
-	console.log('checking muted files');
-	fs.readdir('serverconf/muted', (err, files) => {
-		if (err) {
-			console.log(err.toString());
-		}
-		files.forEach(file => {
+	try {
+		//checks muted list to see if anyone needs to be unmuted
+		console.log('checking muted files');
+		fs.readdir('serverconf/muted', (err, files) => {
+			if (err) {
+				console.log(err.toString());
+			}
+			files.forEach(file => {
+				if (file != 'dont-delete-folder') {
+					fs.readFile('serverconf/muted/' + file, 'utf8', (err, data) => {
+						if (err) {
+							console.log(err.toString());
+							throw "something went wrong with reading file.";
+						} else {
+							let guildid = data.split(' ')[0];
+							let timeUnmute = data.split(' ')[1];
+							console.log(guildid);
+							let guild = bot.guilds.get(guildid);
 
-			fs.readFile('serverconf/muted/' + file, 'utf8', (err, data) => {
-				if (err) {
-					console.log(err.toString());
-				}
-				let guildid = data.split(' ')[0];
-				let timeUnmute = data.split(' ')[1];
-				console.log(guildid);
-				let guild = bot.guilds.get(guildid);
-
-				let mutee = guild.members.get(file);
-				let muted = guild.roles.find('name', 'Muted').id;
-				if (mutee.roles.has(muted)) {
-					if (Date.now() > timeUnmute) {
-						mutee.removeRole(muted);
-						guild.defaultChannel.sendMessage(mutee+' you have been unmuted!');
-						fs.unlink('serverconf/muted/'+file);
-					} else {
-						guild.defaultChannel.sendMessage('its not time yet (testMessage) now = '+Date.now()+' time = '+timeUnmute );
-					}
-				}else{
-					fs.unlink('serverconf/muted/'+file);
+							let mutee = guild.members.get(file);
+							let muted = guild.roles.find('name', 'Muted').id;
+							if (mutee.roles.has(muted)) {
+								if (Date.now() > timeUnmute) {
+									mutee.removeRole(muted);
+									guild.defaultChannel.sendMessage(mutee + ' you have been unmuted!');
+									fs.unlink('serverconf/muted/' + file);
+								}
+							} else {
+								fs.unlink('serverconf/muted/' + file);
+							}
+						}
+					});
 				}
 			});
 		});
-	});
-},30000);
+	} catch (err) {
+		console.log(err.toString());
+	}
+}, 30000);
 
 bot.on('message', msg => { // Listen to all messages sent
 	if (msg.author.bot) {
