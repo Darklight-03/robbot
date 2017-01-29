@@ -11,6 +11,8 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 	}
 	// Check for cooldown, if on cooldown notify user of it and abort command execution.
 	let args = msg.content.substr(config.commandPrefix.length + command.length + 2);
+	let lengthMute = parseInt(args.trim().split(' ')[1])*1000;
+	let arg2 = lengthMute;
 	let users = msg.guild.members;
 	let mutee = users.get(msg.mentions.users.first().id);
 	//console.log(msg.mentions.users.first());
@@ -22,13 +24,20 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 			if (mutee.roles.has(muted)) {
 				msg.reply("that user is already muted");
 			} else {
+				//mute them.
 				mutee.addRole(muted);
 				msg.guild.createChannel('temp', 'voice').then(channel => {
 					mutee.setVoiceChannel(channel).then(member => {
 						channel.delete();
 					});
 				});
-				msg.reply("muted " + mutee.toString());
+				lengthMute = lengthMute+Date.now();
+				fs.writeFile('serverconf/muted/' + mutee.id, msg.guild.id+' '+lengthMute, (err) => {
+					if (err) {
+						msg.reply("error writing to file, err: " + err.toString());
+					}
+				});
+				msg.reply("muted " + mutee.toString() + ' for ' + arg2 / 1000 + ' seconds.');
 			}
 		}
 	} catch (err) {

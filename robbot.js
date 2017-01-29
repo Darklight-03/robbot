@@ -51,10 +51,46 @@ var timeout = {
 };
 
 setInterval(function() {
-
+	//sets the game
 	let n = Math.floor(Math.random() * (playableGames.games.length - 0) + 1);
 	bot.user.setGame(playableGames.games[n]);
 }, 15000); // Repeats every 15 seconds, what we believe to be the rate cap of changing games being played.
+
+setInterval(() => {
+	//checks muted list to see if anyone needs to be unmuted
+	console.log('checking muted files');
+	fs.readdir('serverconf/muted', (err, files) => {
+		if (err) {
+			console.log(err.toString());
+		}
+		files.forEach(file => {
+
+			fs.readFile('serverconf/muted/' + file, 'utf8', (err, data) => {
+				if (err) {
+					console.log(err.toString());
+				}
+				let guildid = data.split(' ')[0];
+				let timeUnmute = data.split(' ')[1];
+				console.log(guildid);
+				let guild = bot.guilds.get(guildid);
+
+				let mutee = guild.members.get(file);
+				let muted = guild.roles.find('name', 'Muted').id;
+				if (mutee.roles.has(muted)) {
+					if (Date.now() > timeUnmute) {
+						mutee.removeRole(muted);
+						guild.defaultChannel.sendMessage(mutee+' you have been unmuted!');
+						fs.unlink('serverconf/muted/'+file);
+					} else {
+						guild.defaultChannel.sendMessage('its not time yet (testMessage) now = '+Date.now()+' time = '+timeUnmute );
+					}
+				}else{
+					fs.unlink('serverconf/muted/'+file);
+				}
+			});
+		});
+	});
+},30000);
 
 bot.on('message', msg => { // Listen to all messages sent
 	if (msg.author.bot) {
