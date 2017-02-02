@@ -8,6 +8,9 @@ var Commands = require('./command_handler.js'); // Load command handler
 var serverConfig = require('./serverconfig_handler.js'); // Load serverConfig handler
 var playableGames = require('./res/games.json'); //loads all the games that the bot can play
 var DMResponses = require('./res/DMResponses.json');
+var database = require('./database.js');
+
+database.connect();
 
 bot.once('ready', () => { // Ready message once bot is loaded
 	Events.ready(bot);
