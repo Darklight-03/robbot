@@ -8,18 +8,20 @@ var db = mysql.createConnection({
 	password: 'fghg',
 	database: 'botdb'
 });
-function connect(){
+exports.connect = function(){
   db.connect();
-}
-function initializeTables() {
-	db.query('CREATE TABLE IF NOT EXISTS \'muted\' ( \
-  \'member_id\' VARCHAR, \
-  \'guild_id\' VARCHAR, \
-  \'epoch_unmute\' BIGINT UNSIGNED PRIMARY KEY NOT NULL, \
+};
+exports.initializeTables = function(){
+	db.query('CREATE TABLE IF NOT EXISTS muted ( \
+  member_id VARCHAR(30), \
+  guild_id VARCHAR(30), \
+  epoch_unmute BIGINT(64) UNSIGNED PRIMARY KEY NOT NULL \
   );', (error, results, fields) => {
     if(error) throw error;
-    console.log('The solution is: ', results[0].solution);
-	});
-}
+    if(typeof results !== 'undefined'){
+      console.log('initialized tables: ', results);
+    }
+  });
+};
 
-module.exports = connect, initializeTables;
+//module.exports = connect, initializeTables;
