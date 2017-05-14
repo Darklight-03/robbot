@@ -4,7 +4,7 @@
   "description": "Discord bot, built with discord.js",
   "main": "robbot.js",
   "dependencies": {
-    "discord.js": "github:hydrabolt/discord.js#indev-prism",
+    "discord.js": "github:hydrabolt/discord.js",
     "moment": "^2.17.1",
     "mysql": "^2.13.0",
     "opusscript": "0.0.1",
@@ -15,7 +15,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/robflop/robbot.git"
+    "url": "git+https://github.com/Darklight-03/robbot.git"
   },
   "keywords": [
     "megumin.love",
@@ -26,10 +26,10 @@
     "discord",
     "node.js"
   ],
-  "author": "robflop",
+  "author": "robflop+darklight-03+legitcookie",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/robflop/robbot/issues"
+    "url": "https://github.com/Darklight-03/robbot/issues"
   },
-  "homepage": "https://github.com/robflop/robbot#readme"
+  "homepage": "https://github.com/Darklight-03/robbot#readme"
 }
