@@ -109,7 +109,7 @@ bot.on('message', msg => { // Listen to all messages sent
 	} // Ignore any bot messages
 	if (msg.channel.type == "dm") {
 		// If the message is from a private channel...
-		msg.channel.sendMessage(DMResponses.responses[Math.floor(Math.random() * (DMResponses.responses.length))]);
+		msg.channel.send(DMResponses.responses[Math.floor(Math.random() * (DMResponses.responses.length))]);
 		// ...notify the user...
 		return;
 		// ...and abort command execution.
