@@ -23,5 +23,14 @@ exports.initializeTables = function(){
     }
   });
 };
+exports.addMuted = function(member_id, guild_id, epoch_unmute){
+  db.query('INSERT INTO muted (member_id, guild_id, epoch_unmute) \
+  VALUES (?, ?, ?)', [member_id, guild_id, epoch_unmute], (error,results,fields) => {
+    if(error) throw error;
+    if(typeof results !== 'undefined'){
+      console.log('added muted ',results);
+    }
+  });
+}
 
 //module.exports = connect, initializeTables;
