@@ -64,6 +64,9 @@ setInterval(() => {
 		//checks muted list to see if anyone needs to be unmuted
 		//console.log('checking muted files');
 		//checks for files
+
+
+
 		fs.readdir('serverconf/muted', (err, files) => {
 			if (err) {
 				console.log(err.toString());
@@ -87,7 +90,7 @@ setInterval(() => {
 								if (Date.now() > timeUnmute) {
 									//unmutes and removes file
 									mutee.removeRole(muted);
-									guild.defaultChannel.sendMessage(mutee + ' you have been unmuted!');
+									guild.defaultChannel.send(mutee + ' you have been unmuted!');
 									fs.unlink('serverconf/muted/' + file);
 								}
 							} else {
