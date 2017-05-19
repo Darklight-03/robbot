@@ -20,8 +20,8 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 	let muted = msg.guild.roles.find("name", 'Muted').id;
 	var epoch = (new Date).getTime();
 	var epoch_unmute = lengthMute + epoch;
-	//database.addMuted(mutee.id, msg.guild.id, epoch_unmute);
-	//database.getMuted();
+	database.addMuted(mutee.id, msg.guild.id, epoch_unmute);
+	database.getMuted();
 
 	//TODO figure out ^^
 	try {

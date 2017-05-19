@@ -32,10 +32,25 @@ exports.addMuted = function(member_id, guild_id, epoch_unmute){
     }
   });
 }
-exports.getMuted = function(){
+/*
+  valid get args = member_id, guild_id, epoch_unmute
+*/
+exports.getMuted = function(get, num){
   db.query('SELECT * FROM muted;',(error, results, fields) => {
     if(error) throw error;
-    console.log(); //TODO parse results and then return.
+    r=[];
+    for(i = 0;i<results.length;i++){
+      if(typeof get !== 'undefined'){
+        if(get == 'member_id') r.push(results[i].member_id);
+        if(get == 'guild_id') r.push(results[i].guild_id);
+        if(get == 'epoch_unmute') r.push(results[i].epoch_unmute);
+      }
+      else{
+        r.push(results[i]);
+      }
+    }
+    if(typeof num !== 'undefined'&&num<results.length) r=r[num];
+    console.log('results: ',results,'\nr = ',r); //TODO parse results and then return.
     return results;
   });
 }
