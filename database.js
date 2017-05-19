@@ -19,7 +19,7 @@ exports.initializeTables = function(){
   );', (error, results, fields) => {
     if(error) throw error;
     if(typeof results !== 'undefined'){
-      console.log('initialized tables: ', results);
+      console.log('initialized tables');
     }
   });
 };
@@ -27,7 +27,7 @@ exports.removeMuted = function(member_id,guild_id){
   db.query('DELETE FROM muted WHERE member_id = ? AND guild_id = ?',[member_id,guild_id],(error,results,fields) => {
     if(error) throw error;
     if(typeof results !== 'undefined'){
-      console.log('removed from muted',results);
+      // console.log('removed from muted',results);
       return true;
     }
   });
@@ -37,7 +37,7 @@ exports.addMuted = function(member_id, guild_id, epoch_unmute){
   VALUES (?, ?, ?);', [member_id, guild_id, epoch_unmute], (error,results,fields) => {
     if(error) throw error;
     if(typeof results !== 'undefined'){
-      console.log('added muted ',results);
+      // console.log('added muted ',results);
     }
   });
 }
@@ -61,7 +61,7 @@ exports.getMuted = function(get, num){
         }
       }
       if(typeof num !== 'undefined'&&num<results.length) r=r[num];
-      console.log('results: ',results,'\nr = ',r); //TODO parse results and then return.
+      // console.log('results: ',results,'\nr = ',r); //TODO parse results and then return.
       resolve(r);
     });
   });

@@ -64,7 +64,7 @@ setInterval(() => {
 		//checks muted list to see if anyone needs to be unmuted
 		//console.log('checking muted files');
 		//checks for files
-		console.log('checking');
+		
 		database.getMuted('epoch_unmute').then((result) => {
 			times = result;
 			database.getMuted('member_id').then((result) => {
@@ -82,7 +82,7 @@ setInterval(() => {
 						let mutee = guild.members.get(muteeid);
 						if (mutee.roles.has(muted)) {
 							if (timeUnmute < Date.now()) {
-								console.log('removing');
+								
 								mutee.removeRole(muted);
 								guild.defaultChannel.send(mutee + ' you have been unmuted!');
 								database.removeMuted(mutee.id, guild.id);
@@ -95,8 +95,6 @@ setInterval(() => {
 				});
 			});
 		});
-
-		// console.log('ppls: ',ppls)
 
 		
 	} catch (err) {
