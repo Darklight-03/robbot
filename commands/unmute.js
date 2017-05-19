@@ -22,7 +22,7 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 		} else {
 			if (mutee.roles.has(muted)) {
 				mutee.removeRole(muted);
-				database.removeMuted(mutee,msg.guild);
+				database.removeMuted(mutee.id,msg.guild.id);
 				msg.reply("UNMUTED " + mutee.toString());
 			} else {
 				msg.reply(mutee.toString() + " IS NOT MUTED. CANNOT COMPUTE. KMS.");

@@ -41,27 +41,31 @@ exports.addMuted = function(member_id, guild_id, epoch_unmute){
     }
   });
 }
-/*
-  valid get args = member_id, guild_id, epoch_unmute
+/**
+* @param {String} get - member_id, guild_id, epoch_unmute
+* @param {Integer} num - which line to get 
 */
 exports.getMuted = function(get, num){
-  db.query('SELECT * FROM muted;',(error, results, fields) => {
-    if(error) throw error;
-    r=[];
-    for(i = 0;i<results.length;i++){
-      if(typeof get !== 'undefined'){
-        if(get == 'member_id') r.push(results[i].member_id);
-        if(get == 'guild_id') r.push(results[i].guild_id);
-        if(get == 'epoch_unmute') r.push(results[i].epoch_unmute);
+  return new Promise((resolve,reject)=>{
+    db.query('SELECT * FROM muted;',(error, results, fields) => {
+      if(error) throw error;
+      r=[];
+      for(i = 0;i<results.length;i++){
+        if(typeof get !== 'undefined'){
+          if(get == 'member_id') r.push(results[i].member_id);
+          if(get == 'guild_id') r.push(results[i].guild_id);
+          if(get == 'epoch_unmute') r.push(results[i].epoch_unmute);
+        }
+        else{
+          r.push(results[i]);
+        }
       }
-      else{
-        r.push(results[i]);
-      }
-    }
-    if(typeof num !== 'undefined'&&num<results.length) r=r[num];
-    console.log('results: ',results,'\nr = ',r); //TODO parse results and then return.
-    return results;
+      if(typeof num !== 'undefined'&&num<results.length) r=r[num];
+      console.log('results: ',results,'\nr = ',r); //TODO parse results and then return.
+      resolve(r);
+    });
   });
+  
 }
 
 //module.exports = connect, initializeTables;
