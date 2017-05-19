@@ -13,8 +13,8 @@ exports.connect = function(){
 };
 exports.initializeTables = function(){
 	db.query('CREATE TABLE IF NOT EXISTS muted ( \
-  member_id VARCHAR(30) PRIMARY KEY NOT NULL, \
-  guild_id VARCHAR(30), \
+  member_id VARCHAR(30) NOT NULL, \
+  guild_id VARCHAR(30) NOT NULL, \
   epoch_unmute BIGINT(64) UNSIGNED \
   );', (error, results, fields) => {
     if(error) throw error;
@@ -23,6 +23,15 @@ exports.initializeTables = function(){
     }
   });
 };
+exports.removeMuted = function(member_id,guild_id){
+  db.query('DELETE FROM muted WHERE member_id = ? AND guild_id = ?',[member_id,guild_id],(error,results,fields) => {
+    if(error) throw error;
+    if(typeof results !== 'undefined'){
+      console.log('removed from muted',results);
+      return true;
+    }
+  });
+}
 exports.addMuted = function(member_id, guild_id, epoch_unmute){
   db.query('INSERT INTO muted (member_id, guild_id, epoch_unmute) \
   VALUES (?, ?, ?);', [member_id, guild_id, epoch_unmute], (error,results,fields) => {

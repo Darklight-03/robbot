@@ -19,9 +19,8 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 	//console.log(msg.mentions.users.first());
 	let muted = msg.guild.roles.find("name", 'Muted').id;
 	var epoch = (new Date).getTime();
-	var epoch_unmute = lengthMute + epoch;
-	database.addMuted(mutee.id, msg.guild.id, epoch_unmute);
-	database.getMuted();
+	//var epoch_unmute = lengthMute + epoch;
+	
 
 	//TODO figure out ^^
 	try {
@@ -39,11 +38,12 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 					});
 				});
 				lengthMute = lengthMute+Date.now();
-				fs.writeFile('serverconf/muted/' + mutee.id, msg.guild.id+' '+lengthMute, (err) => {
-					if (err) {
-						msg.reply("error writing to file, err: " + err.toString());
-					}
-				});
+				// fs.writeFile('serverconf/muted/' + mutee.id, msg.guild.id+' '+lengthMute, (err) => {
+				// 	if (err) {
+				// 		msg.reply("error writing to file, err: " + err.toString());
+				// 	}
+				// });
+				database.addMuted(mutee.id, msg.guild.id, lengthMute);
 				msg.reply("muted " + mutee.toString() + ' for ' + arg2 / 1000 + ' seconds.');
 			}
 		}
