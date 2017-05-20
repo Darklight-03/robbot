@@ -11,6 +11,12 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 	if (timeout.check(msg.author.id, msg)) {
 		return;
 	}
+	if(msg.author.id !== config.ownerID) {
+		// If the user is not authorized...
+		msg.reply("you are not authorized to use this command!");
+		// ...notify the user...
+		return; // ...and abort command execution.
+	}
 	let args = msg.content.substr(config.commandPrefix.length + command.length + 1 + config.needsSpace);
 	var r=0;
 	function getMessagesBef(msgid){
@@ -34,7 +40,7 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 				console.log('waiting then finding more.');
 				setTimeout(()=>{
 					getMessagesBef(messages.last().id);
-				},1000*60*1);
+				},1000*15*1);
 			}
 			else{
 				done();
@@ -46,7 +52,7 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 	}
 	if(!(!args)){
 		getMessagesBef(msg.id);
-		msg.reply(`looking through ENTIRE CHANNEL for ${args}, warning this may take a long time.`);
+		msg.reply(`looking through ENTIRE CHANNEL for ${args}, warning this may take a VERY long time.`);
 	}
 	// msg.reply(msg.content);
 	// msg.channel.fetchMessages({limit: 100}).then(messages => {
