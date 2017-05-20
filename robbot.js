@@ -130,8 +130,8 @@ bot.on('message', msg => { // Listen to all messages sent
 		}
 	}
 	// If no ignore list (file) was found and the guild id is null, proceed without checking for ignored users
-	const botPerm = bot.user.Permissions; // For permission checking on the bot's side later on in the commands
-	const userPerm = msg.member.Permissions; // For permission checking on the user's side later on in the commands
+	const botPerm = msg.guild.member(bot.user); // For permission checking on the bot's side later on in the commands
+	const userPerm = msg.guild.member(msg.member.user); // For permission checking on the user's side later on in the commands
 	/*
 	INFO:
 	Because the commands are all loaded from external files, "bot", "msg", "timeout", "botPerm" and "userPerm" are passed...

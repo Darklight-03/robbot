@@ -5,19 +5,18 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 		// ...PM the user...
 		return; // ...and abort command execution.
 	}
-	var command = "kys";
+	var command = "coffee";
 	if (timeout.check(msg.author.id, msg)) {
 		return;
 	}
 	if (bot.user.presence.status == "invisible") {
 		return;
 	}
-	msg.reply('kms');
-	bot.user.setStatus("invisible");
+	msg.reply('MAKING COFFEE');
 	setTimeout(function() {
-		bot.user.setStatus('online');
-	}, 120000);
+		msg.reply('COFFEE FINISHED');
+	}, 1200);
 };
 
-exports.desc = "kms"; // Export command description
-exports.syntax = ""; // Export command syntax
+exports.desc = "coffee"; // Export command description
+exports.syntax = "coffee"; // Export command syntax
