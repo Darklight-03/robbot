@@ -5,7 +5,7 @@ const moment = require('moment'); // Part of log writing
 const prism = require('prism-media'); // Prism for smoother file playing of very short files
 
 exports.main = function (bot, msg, timeout, botPerm, userPerm) { // Export command function
-	var command = "giberole"; // For logging purposes
+	var command = "takerole"; // For logging purposes
 	if (timeout.check(msg.author.id, msg)) {
 		return;
 	}
