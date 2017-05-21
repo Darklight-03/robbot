@@ -17,7 +17,7 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 		// ...notify the user that they are not authorized...
 		return; // ...and abort command execution.
 	}
-	var arg = msg.content.substr(config.commandPrefix.length + command.length + 2).toLowerCase();
+	var arg = msg.content.substr(config.commandPrefix.length + command.length + 1 + config.needsSpace).toLowerCase();
 	// Cut out the argument of the command
 	if (arg == "toggle" || arg == "help" || Object.keys(Commands.commands).indexOf(arg) == -1) {
 		return;
