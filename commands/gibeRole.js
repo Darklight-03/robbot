@@ -6,35 +6,37 @@ const prism = require('prism-media'); // Prism for smoother file playing of very
 
 exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export command function
 	var command = "giberole"; // For logging purposes
-	if(timeout.check(msg.author.id, msg)) { return; }; 
+	if (timeout.check(msg.author.id, msg)) {
+		return;
+	}
 	// Check for cooldown, if on cooldown notify user of it and abort command execution.
 	var args = msg.content.substr(config.commandPrefix.length + command.length + 2);
 	var roles = msg.guild.roles;
-	var validroles = [];	
-	function listMap(value, key, map){
-		if(value.name.charAt(0)=='-'){
+	var validroles = [];
+
+	function listMap(value, key, map) {
+		if (value.name.charAt(0) == '-') {
 			validroles.push(value.name);
 		}
 	}
 	roles.forEach(listMap);
 	//console.log(validroles);
-	if(args.charAt(0)!='-'){
-		args = "-"+args;
+	if (args.charAt(0) != '-') {
+		args = "-" + args;
 	}
 	let role = msg.guild.roles.find("name", args);
-	try{
-		if(msg.member.roles.has(role.id)){
+	try {
+		if (msg.member.roles.has(role.id)) {
 			msg.reply("u already have dis role noob");
-		}else{
-			if(validroles.includes(role.name)){
+		} else {
+			if (validroles.includes(role.name)) {
 				msg.member.addRole(role);
 				msg.reply("role added");
-			}
-			else{
+			} else {
 				msg.reply("no permission for dis role");
 			}
 		}
-	}catch(err){
+	} catch (err) {
 		msg.reply("failed to add role (maybe no permission, maybe the role does not exist)");
 	}
 
@@ -42,4 +44,4 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 
 
 exports.desc = "give the role specified to you"; // Export command description
-exports.syntax = "<role>" // Export command syntax
+exports.syntax = "<role>"; // Export command syntax

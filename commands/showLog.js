@@ -11,47 +11,53 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 		config.profileLog,
 		config.ignoreLog
 	];
-	
-	if(timeout.check(msg.author.id, msg)) { return; }; 
+
+	if (timeout.check(msg.author.id, msg)) {
+		return;
+	}
 	// Check for cooldown, if on cooldown notify user of it and abort command execution
-	if(msg.author.id !== config.ownerID) { 
+	if (msg.author.id !== config.ownerID) {
 		// If the user is not authorized...
-		msg.reply("you are not authorized to use this command!"); 
+		msg.reply("you are not authorized to use this command!");
 		// ...notify the user...
 		return; // ...and abort command execution.
-	};
-	var arg = msg.content.substr(config.commandPrefix.length + command.length + 2); 
+	}
+	var arg = msg.content.substr(config.commandPrefix.length + command.length + 2);
 	// Cut out the argument of the command
-	var file = ""; 
+	var file = "";
 	// Placeholder for file to read
 
-	if (possibleLogs.indexOf(arg) > -1) { 
+	if (possibleLogs.indexOf(arg) > -1) {
 		// If argument is a valid filename,...
-		file = possibleLogs[possibleLogs.indexOf(arg)]; 
+		file = possibleLogs[possibleLogs.indexOf(arg)];
 		// ...then set file to the given filename.
-	}
-	else {
+	} else {
 		// If argument is invalid filename...
 		msg.author.sendMessage(`Not a configured log file. Valid logs are: ${possibleLogs.join(", ")}`);
 		// ...notify the user...
-		return; 
+		return;
 		// ...and abort command execution.
 	}
 
-	fs.readFile(`${config.logPath + file}`, "utf-8", (error, data) => { 
+	fs.readFile(`${config.logPath + file}`, "utf-8", (error, data) => {
 		// Read the given argument file from the default log path
-		if(error) {
+		if (error) {
 			// If an error occurs,...
 			msg.author.sendMessage(`An error has occured: \`\`\`${error}\`\`\``); // ...then notify author of the error...
 			fs.appendFileSync(`${config.logPath}${config.serverLog}`, `\n[${moment().format('DD/MM/YYYY HH:mm:ss')}][SHOWLOG] ${msg.author.username}#${msg.author.discriminator} tried using the "${msg.content.substr(config.commandPrefix.length + 1, command.length)}" command  on the '${msg.guild}' server, but an error occurred!`); // ...log the command use plus the error...
 			return; // ...and abort command execution.
-		};
+		}
 		// If there is no error...
-		msg.author.sendMessage(`\`\`\`${data}\`\`\``, {split: {prepend: "\`\`\`", append: "\`\`\`"}});
+		msg.author.sendMessage(`\`\`\`${data}\`\`\``, {
+			split: {
+				prepend: "\`\`\`",
+				append: "\`\`\`"
+			}
+		});
 		// ...output the chosen log to the user...
 		console.log(`${msg.author.username}#${msg.author.discriminator} on the '${msg.guild}' server displayed a log file!`);
 		fs.appendFileSync(`${config.logPath}${config.serverLog}`, `\n[${moment().format('DD/MM/YYYY HH:mm:ss')}][SHOWLOG] ${msg.author.username}#${msg.author.discriminator} successfully used the "${msg.content.substr(config.commandPrefix.length + 1, command.length)}" command  on the '${msg.guild}' server!`); // ...and log command use, when and by whom.
 	});
 };
 exports.desc = "easily display one of the configured log files [Bot owner only]"; // Export command description
-exports.syntax = "<logfile to display>" // Export command syntax
+exports.syntax = "<logfile to display>"; // Export command syntax
