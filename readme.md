@@ -1,1 +1,1 @@
-A bot that i copied from that guy then changed it.
+MOVED TO https://github.com/Darklight-03/dark-robbot
