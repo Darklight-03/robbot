@@ -12,3 +12,4 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 };
 exports.desc = "get general info about the bot"; // Export command description
 exports.syntax = ""; // Export command syntax
+ 
