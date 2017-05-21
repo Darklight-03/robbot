@@ -18,7 +18,7 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 	console.log(`${bot.user.username}'s game status reset! (${msg.author.username}#${msg.author.discriminator} on '${msg.guild}')`);
 	if(!botPerm.hasPermission('SEND_MESSAGES')) {
 	// If the bot can't send to the channel...
-		msg.author.sendMessage("Game status cleared! \n(May not have worked if ratelimit has been capped)");
+		msg.author.send("Game status cleared! \n(May not have worked if ratelimit has been capped)");
 		// ...PM the user...
 		return; // ...and abort command execution.
 	}

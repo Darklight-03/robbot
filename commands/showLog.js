@@ -33,7 +33,7 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 		// ...then set file to the given filename.
 	} else {
 		// If argument is invalid filename...
-		msg.author.sendMessage(`Not a configured log file. Valid logs are: ${possibleLogs.join(", ")}`);
+		msg.author.send(`Not a configured log file. Valid logs are: ${possibleLogs.join(", ")}`);
 		// ...notify the user...
 		return;
 		// ...and abort command execution.
@@ -43,12 +43,12 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 		// Read the given argument file from the default log path
 		if (error) {
 			// If an error occurs,...
-			msg.author.sendMessage(`An error has occured: \`\`\`${error}\`\`\``); // ...then notify author of the error...
+			msg.author.send(`An error has occured: \`\`\`${error}\`\`\``); // ...then notify author of the error...
 			fs.appendFileSync(`${config.logPath}${config.serverLog}`, `\n[${moment().format('DD/MM/YYYY HH:mm:ss')}][SHOWLOG] ${msg.author.username}#${msg.author.discriminator} tried using the "${msg.content.substr(config.commandPrefix.length + 1, command.length)}" command  on the '${msg.guild}' server, but an error occurred!`); // ...log the command use plus the error...
 			return; // ...and abort command execution.
 		}
 		// If there is no error...
-		msg.author.sendMessage(`\`\`\`${data}\`\`\``, {
+		msg.author.send(`\`\`\`${data}\`\`\``, {
 			split: {
 				prepend: "\`\`\`",
 				append: "\`\`\`"
