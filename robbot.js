@@ -8,6 +8,9 @@ var Commands = require('./command_handler.js'); // Load command handler
 var serverConfig = require('./serverconfig_handler.js'); // Load serverConfig handler
 var playableGames = require('./res/games.json'); //loads all the games that the bot can play
 var DMResponses = require('./res/DMResponses.json');
+var database = require('./database.js');
+
+database.connect();
 
 bot.once('ready', () => { // Ready message once bot is loaded
 	Events.ready(bot);
@@ -28,7 +31,7 @@ bot.on('guildDelete', guild => { // Listen to leaves
 var timeout = {
 	// Timeout function for command cooldown, courtesy of u/pilar6195 on reddit
 	"users": [],
-	"check": function(userID, msg) {
+	"check": function (userID, msg) {
 		if (timeout.users.indexOf(userID) > -1) {
 			// If the user is on timeout don't let them use the command
 			msg.reply(`calm down with the commands for a sec! Please wait ${config.commandCooldown} seconds.`);
@@ -39,10 +42,10 @@ var timeout = {
 			return false;
 		}
 	},
-	"set": function(userID) {
+	"set": function (userID) {
 		timeout.users.push(userID);
 		// Push the userID into the timeout array
-		setTimeout(function() {
+		setTimeout(function () {
 			// Set timeout for, well, the timeout
 			timeout.users.splice(timeout.users.indexOf(userID), 1);
 			// Take out the user after timeout is up
@@ -51,7 +54,7 @@ var timeout = {
 	}
 };
 
-setInterval(function() {
+setInterval(function () {
 	let n = Math.floor(Math.random() * (playableGames.games.length - 0));
 	bot.user.setGame(playableGames.games[n]);
 }, 15000); // Repeats every 15 seconds, what we believe to be the rate cap of changing games being played.
@@ -61,40 +64,39 @@ setInterval(() => {
 		//checks muted list to see if anyone needs to be unmuted
 		//console.log('checking muted files');
 		//checks for files
-		fs.readdir('serverconf/muted', (err, files) => {
-			if (err) {
-				console.log(err.toString());
-			}
-			//reads each file
-			files.forEach(file => {
-				if (file != 'dont-delete-folder') {
-					fs.readFile('serverconf/muted/' + file, 'utf8', (err, data) => {
-						if (err) {
-							console.log(err.toString());
-							throw "something went wrong with reading file.";
-						} else {
-							//checks time they need to be unmuted
-							let guildid = data.split(' ')[0];
-							let timeUnmute = data.split(' ')[1];
-							let guild = bot.guilds.get(guildid);
-							let mutee = guild.members.get(file);
-							let muted = guild.roles.find('name', 'Muted').id;
+		
+		database.getMuted('epoch_unmute').then((result) => {
+			times = result;
+			database.getMuted('member_id').then((result) => {
+				ppls = result;
+				database.getMuted('guild_id').then((result) => {
+					servers = result;
 
-							if (mutee.roles.has(muted)) {
-								if (Date.now() > timeUnmute) {
-									//unmutes and removes file
-									mutee.removeRole(muted);
-									guild.defaultChannel.sendMessage(mutee + ' you have been unmuted!');
-									fs.unlink('serverconf/muted/' + file);
-								}
-							} else {
-								fs.unlink('serverconf/muted/' + file);
+					ppls.forEach((cv, index, array) => {
+						console.log('index: ', index);
+						let guildid = servers[index];
+						let muteeid = ppls[index];
+						let timeUnmute = times[index];
+						let guild = bot.guilds.get(guildid);
+						let muted = guild.roles.find('name', 'Muted').id;
+						let mutee = guild.members.get(muteeid);
+						if (mutee.roles.has(muted)) {
+							if (timeUnmute < Date.now()) {
+								
+								mutee.removeRole(muted);
+								guild.defaultChannel.send(mutee + ' you have been unmuted!');
+								database.removeMuted(mutee.id, guild.id);
 							}
 						}
+						else {
+							database.removeMuted(mutee.id, guild.id);
+						}
 					});
-				}
+				});
 			});
 		});
+
+		
 	} catch (err) {
 		console.log(err.toString());
 	}
@@ -106,7 +108,7 @@ bot.on('message', msg => { // Listen to all messages sent
 	} // Ignore any bot messages
 	if (msg.channel.type == "dm") {
 		// If the message is from a private channel...
-		msg.channel.sendMessage(DMResponses.responses[Math.floor(Math.random() * (DMResponses.responses.length))]);
+		msg.channel.send(DMResponses.responses[Math.floor(Math.random() * (DMResponses.responses.length))]);
 		// ...notify the user...
 		return;
 		// ...and abort command execution.
@@ -128,8 +130,8 @@ bot.on('message', msg => { // Listen to all messages sent
 		}
 	}
 	// If no ignore list (file) was found and the guild id is null, proceed without checking for ignored users
-	const botPerm = msg.channel.permissionsFor(bot.user); // For permission checking on the bot's side later on in the commands
-	const userPerm = msg.channel.permissionsFor(msg.member); // For permission checking on the user's side later on in the commands
+	const botPerm = msg.guild.member(bot.user); // For permission checking on the bot's side later on in the commands
+	const userPerm = msg.guild.member(msg.member.user); // For permission checking on the user's side later on in the commands
 	/*
 	INFO:
 	Because the commands are all loaded from external files, "bot", "msg", "timeout", "botPerm" and "userPerm" are passed...
