@@ -26,7 +26,7 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 			messages.forEach((messagee)=>{
 				//console.log(messagee.toString());
 				m = messagee.toString();
-				let re = new RegExp(args,'g');
+				let re = new RegExp(args,'gi');
 				b=m.match(re);
 				if(!(!b)){
 					//console.log(b);
@@ -40,7 +40,7 @@ exports.main = function(bot, msg, timeout, botPerm, userPerm) { // Export comman
 				console.log('waiting then finding more.');
 				setTimeout(()=>{
 					getMessagesBef(messages.last().id);
-				},1000*15*1);
+				},1000*.5);
 			}
 			else{
 				done();
